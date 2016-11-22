@@ -47,7 +47,11 @@ Pour lancer le programme, il suffit de lancer `MASTER_SHAVADOOP.jar` depuis une 
   
 ## Les difficultés rencontrées
 
-La difficulté majeure concerne la gestion des threads et de la mémoire.  
+Le premier problème rencontré a été l'échec de la connexion **ssh** suite à un nombre trop important de requêtes. Nous avons donc développé un système de statuts dans la classe `Action.java` qui relance le Slave sur une nouvelle machine tant que la sortie contient un message d'erreur.  
+Grâce à cela, nous pouvons donc gérer les erreurs de connexion **ssh** mais également les machines quine sont plus disponibles.  
+  
+Le deuxième problème rencontré a été les lenteurs dues au nombre trop important de threads créés. Nous avons donc implémenté un système permettant de mapper le nombre de threads en activité. A chaque lancement de threads, nous testons le nombre de threads actifs. Si le nombre de threads est égal au maximum defini, la relance d'un nouveau thread n'est effectuée que lorsqu'un thread a fini son action.  
+Ceci permet d'éviter une trop grosse utilisation de la mémoire et donc des lenteurs, voir un arrêt du programme.  
   
 ## Les résultats obtenus  
 ### Pour le code forestier Mayotte  
